@@ -7,6 +7,9 @@ require 'hocon'
 #amputovat, implantovat
 #amputate, implantate
 
+class StructButcher
+end
+
 class StructButcher::Parser
     def load_config(filename, format)
         case format

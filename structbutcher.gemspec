@@ -8,6 +8,6 @@ Gem::Specification.new do |s|
     s.description = 'Take config and put it to YAML under specific key'
     s.authors = 'Miroslav Tynovsky'
     s.email = 'tynovsky@avast.com'
-    s.files = ['lib/fromto.rb']
+    s.files = ['lib/structbutcher.rb']
     s.license = 'MIT'
 end
