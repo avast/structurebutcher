@@ -11,7 +11,7 @@ class StructButcher
 end
 
 class StructButcher::Parser
-    def load_config(filename, format)
+    def load_struct(filename, format)
         case format
         when "json"
             return load_json(filename)
@@ -34,7 +34,8 @@ class StructButcher::Parser
     end
 
     def load_properties(filename)
-        return JavaProperties.load(filename)
+        hash = JavaProperties.load(filename)
+        return Hash[hash.map{|(k,v)| [k.to_s,v]}]
     end
 
     def load_hocon(filename)
