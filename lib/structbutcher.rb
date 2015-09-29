@@ -8,6 +8,24 @@ require 'hocon'
 #amputate, implantate
 
 class StructButcher
+    def amputate(body, slot)
+        keys = slot.split('.')
+        result = body
+        while (key = keys.shift)
+            result = result[key]
+        end
+        return result
+    end
+
+    def implantate(body, slot, part)
+        keys = slot.split('.')
+        last_key = keys.pop
+        area = body
+        while (key = keys.shift)
+            area = area[key]
+        end
+        area[last_key] = part
+    end
 end
 
 class StructButcher::Parser
@@ -21,6 +39,8 @@ class StructButcher::Parser
             return load_properties(filename)
         when "hocon"
             return load_hocon(filename)
+        else
+            throw "Not implemented"
         end
     end
 
@@ -44,4 +64,17 @@ class StructButcher::Parser
     end
 end
 
-
+class StructButcher::Storer
+    def save_struct(struct, filename, format)
+        case format
+        when "json"
+            File.write(filename, JSON.generate(struct))
+        when "yaml"
+            File.write(filename, struct.to_yaml)
+        when "properties"
+            JavaProperties.write(struct, filename)
+        else
+            throw "Not implemented"
+        end
+    end
+end

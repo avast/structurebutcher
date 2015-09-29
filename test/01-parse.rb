@@ -23,5 +23,3 @@ class ParseTest < Minitest::Test
         assert_equal(loaded["test"][0], 'test')
     end
 end
-
-
