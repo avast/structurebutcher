@@ -26,6 +26,29 @@ class StructButcher
         end
         area[last_key] = part
     end
+
+    def amputate_file(body_file, slot, part_file, format)
+        parser = StructButcher::Parser.new
+        body   = parser.load_struct(body_file, "yaml")
+
+        butcher = StructButcher.new
+        part = butcher.amputate(body, slot)
+
+        storer = StructButcher::Storer.new
+        storer.save_struct(part, out_file, format)
+    end
+
+    def implantate_file(body_file, slot, part_file, format)
+        parser = StructButcher::Parser.new
+        body   = parser.load_struct(body_file, "yaml")
+        part   = parser.load_struct(part_file, format)
+
+        butcher = StructButcher.new
+        part = butcher.implantate(body, slot, part)
+
+        storer = StructButcher::Storer.new
+        storer.save_struct(body, body_file, "yaml")
+    end
 end
 
 class StructButcher::Parser
