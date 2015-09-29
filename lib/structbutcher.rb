@@ -22,7 +22,7 @@ class StructButcher
         last_key = keys.pop
         area = body
         while (key = keys.shift)
-            area = area[key]
+            area = area[key] #TODO: create hash if not exists
         end
         area[last_key] = part
     end
@@ -35,7 +35,7 @@ class StructButcher
         part = butcher.amputate(body, slot)
 
         storer = StructButcher::Storer.new
-        storer.save_struct(part, out_file, format)
+        storer.save_struct(part, part_file, format)
     end
 
     def implantate_file(body_file, slot, part_file, format)
