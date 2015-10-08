@@ -28,7 +28,7 @@ Example:
 
     $ bin/implantator.rb body.yaml one.two part.json
 
-    $ cat body.yaml 
+    $ cat body.yaml
     ---
     one:
       two:
@@ -36,3 +36,4 @@ Example:
         two: 2
         three: 3
 
+For examples on how to use the library, see `tests`.
