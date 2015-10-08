@@ -14,13 +14,16 @@ class ParseTest < Minitest::Test
         butcher.amputate_file(
             "body.yaml", "one.two.three.hash", "part.properties", "properties"
         )
-        butcher.amputate_file(
-            "body.yaml", "one.two.three.hash", "part.hocon", "hocon"
-        )
+        # butcher.amputate_file(
+        #     "body.yaml", "one.two.three.hash", "part.hocon", "hocon"
+        # )
 
         loaded = JavaProperties.load("part.properties")
 
         assert_equal(loaded[:three], "3")
+
+        File.delete("part.properties")
+        File.delete("body.yaml")
     end
 end
 
