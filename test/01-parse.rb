@@ -20,6 +20,6 @@ class ParseTest < Minitest::Test
     def test_hocon
         parser = StructureButcher::Parser.new
         loaded = parser.load_hocon('test/test.hocon')
-        assert_equal(loaded["test"][0], 'test')
+        assert_equal(loaded['test'][0], 'test')
     end
 end

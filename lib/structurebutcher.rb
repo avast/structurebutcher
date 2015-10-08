@@ -105,20 +105,22 @@ class StructureButcher::Parser
 end
 
 class StructureButcher::Storer
-    def save_structure(structure, filename, format)
+    def structure_in_format(structure, format)
         case format
         when "json"
-            File.write(filename, JSON.generate(structure))
+            return JSON.generate(structure)
         when "yaml"
-            File.write(filename, structure.to_yaml)
+            return structure.to_yaml
         when "properties"
-            JavaProperties.write(structure, filename)
+            return JavaProperties.generate(structure)
+        when "hocon"
+            return JSON.generate(structure) #FIXME
         else
-            doc = Hocon::Parser::ConfigDocumentFactory.parse_string("{}")
-            structure.each do |k, v|
-                doc.set_value(k, v)
-            end
-            File.write(filename, doc.render)
+            throw "Unsupported format"
         end
+    end
+
+    def save_structure(structure, filename, format)
+        File.write(filename, structure_in_format(structure, format))
     end
 end
