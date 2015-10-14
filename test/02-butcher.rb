@@ -15,5 +15,12 @@ class ParseTest < Minitest::Test
         butcher.implantate(body, "trunk.arms", 3)
         assert_equal(body["trunk"]["arms"], 3)
     end
+
+    def test_implantate_new_path
+        butcher = StructureButcher.new
+        body = { "head" => 1, "trunk" => {} }
+        butcher.implantate(body, "trunk.arms", 3)
+        assert_equal(body["trunk"]["arms"], 3)
+    end
 end
 

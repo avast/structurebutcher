@@ -25,7 +25,10 @@ class StructureButcher
         last_key = keys.pop
         area = body
         while (key = keys.shift)
-            area = area[key] #TODO: create hash if not exists
+            if area.has_key?(key)
+                then area[key] = {}
+            end
+            area = area[key]
         end
         area[last_key] = part
     end
@@ -48,6 +51,17 @@ class StructureButcher
 
         butcher = StructureButcher.new
         part = butcher.implantate(body, slot, part)
+
+        storer = StructureButcher::Storer.new
+        storer.save_structure(body, body_file, "yaml")
+    end
+
+    def implantate_struct_into_file(body_file, slot, part_struct)
+        parser = StructureButcher::Parser.new
+        body   = parser.load_structure(body_file, "yaml")
+
+        butcher = StructureButcher.new
+        butcher.implantate(body, slot, part_struct)
 
         storer = StructureButcher::Storer.new
         storer.save_structure(body, body_file, "yaml")
