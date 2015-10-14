@@ -22,4 +22,9 @@ class ParseTest < Minitest::Test
         loaded = parser.load_hocon('test/test.hocon')
         assert_equal(loaded['test'][0], 'test')
     end
+    def test_base64
+        parser = StructureButcher::Parser.new
+        loaded = parser.load_base64('test/test.xml')
+        assert_equal(loaded, "PGtleT52YWx1ZTwva2V5Pgo=\n")
+    end
 end

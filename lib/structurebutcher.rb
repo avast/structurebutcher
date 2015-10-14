@@ -4,6 +4,7 @@ require 'java-properties'
 require 'hocon'
 require 'hocon/parser/config_document_factory'
 require 'hocon/config_value_factory'
+require 'base64'
 
 #vyndavator, zastamdator
 #amputovat, implantovat
@@ -64,6 +65,8 @@ class StructureButcher::Parser
             return load_properties(filename)
         when "hocon"
             return load_hocon(filename)
+        when "base64"
+            return load_base64(filename)
         else
             throw "Not implemented"
         end
@@ -101,6 +104,11 @@ class StructureButcher::Parser
 
     def load_hocon(filename)
         return recursive_stringify_keys(Hocon.load(filename))
+    end
+
+    def load_base64(filename)
+        content = File.read(filename)
+        return Base64.encode64(content)
     end
 end
 
