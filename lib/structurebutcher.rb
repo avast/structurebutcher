@@ -11,8 +11,16 @@ require 'base64'
 #amputate, implantate
 
 class StructureButcher
+    def split_escape(str)
+        output = []
+        str.scan(/(?>\\.|[^\\.])+/) do |chunk|
+            output.push( chunk.gsub(/\\(.)/, '\1') )
+        end
+        return output
+    end
+
     def amputate(body, slot)
-        keys = slot.split('.')
+        keys = split_escape(slot)
         result = body
         while (key = keys.shift)
             result = result[key]
@@ -25,7 +33,7 @@ class StructureButcher
         last_key = keys.pop
         area = body
         while (key = keys.shift)
-            if area.has_key?(key)
+            if not area.has_key?(key)
                 then area[key] = {}
             end
             area = area[key]
