@@ -29,7 +29,7 @@ class StructureButcher
     end
 
     def implantate(body, slot, part)
-        keys = slot.split('.')
+        keys = split_escape(slot)
         last_key = keys.pop
         area = body
         while (key = keys.shift)
