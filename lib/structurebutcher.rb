@@ -32,6 +32,11 @@ class StructureButcher
         keys = split_escape(slot)
         last_key = keys.pop
         area = body
+
+        if not area
+            area = Hash.new
+        end
+
         while (key = keys.shift)
             if not area.has_key?(key)
                 then area[key] = {}
@@ -57,6 +62,12 @@ class StructureButcher
         body   = parser.load_structure(body_file, "yaml")
         part   = parser.load_structure(part_file, format)
 
+        # make sure we work with hash
+        # it does not make sense to work with anything else
+	if not body.is_a?(Hash)
+	    body = Hash.new
+	end
+
         butcher = StructureButcher.new
         part = butcher.implantate(body, slot, part)
 
@@ -67,6 +78,12 @@ class StructureButcher
     def implantate_struct_into_file(body_file, slot, part_struct)
         parser = StructureButcher::Parser.new
         body   = parser.load_structure(body_file, "yaml")
+
+        # make sure we work with hash
+        # it does not make sense to work with anything else
+	if not body.is_a?(Hash)
+	    body = Hash.new
+	end
 
         butcher = StructureButcher.new
         butcher.implantate(body, slot, part_struct)
