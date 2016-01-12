@@ -102,6 +102,8 @@ class StructureButcher::Parser
             return load_yaml(filename)
         when "properties"
             return load_properties(filename)
+        when "javaprops"
+            return load_properties(filename)
         when "hocon"
             return load_hocon(filename)
         when "base64"
