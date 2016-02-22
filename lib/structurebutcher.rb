@@ -165,7 +165,6 @@ class StructureButcher::Storer
         when "hocon"
             config = Hocon::ConfigFactory.parse_string(structure.to_json)
             return config.root.render(Hocon::ConfigRenderOptions.new(false, true, true, false))
-            #return JSON.generate(structure) #FIXME
         else
             throw "Unsupported format"
         end
