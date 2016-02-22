@@ -163,7 +163,8 @@ class StructureButcher::Storer
         when "properties"
             return JavaProperties.generate(structure)
         when "hocon"
-            return JSON.generate(structure) #FIXME
+            config = Hocon::ConfigFactory.parse_string(structure.to_json)
+            return config.root.render(Hocon::ConfigRenderOptions.new(false, true, true, false))
         else
             throw "Unsupported format"
         end
