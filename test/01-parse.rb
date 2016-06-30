@@ -7,10 +7,20 @@ class ParseTest < Minitest::Test
         loaded = parser.load_json('test/test.json')
         assert_equal(loaded['key'][0], 'test')
     end
+    def test_json_invalid
+        parser = StructureButcher::Parser.new
+        filename = 'test/test_invalid.json'
+        assert_raises(Exception){ loaded = parser.load_json(filename) }
+    end
     def test_yaml
         parser = StructureButcher::Parser.new
         loaded = parser.load_yaml('test/test.yaml')
         assert_equal(loaded['key'][0], 'test')
+    end
+    def test_yaml_invalid
+        parser = StructureButcher::Parser.new
+        filename = 'test/test_invalid.yaml'
+        assert_raises(Exception){ loaded = parser.load_yaml(filename) }
     end
     def test_properties
         parser = StructureButcher::Parser.new
@@ -21,6 +31,11 @@ class ParseTest < Minitest::Test
         parser = StructureButcher::Parser.new
         loaded = parser.load_hocon('test/test.hocon')
         assert_equal(loaded['test'][0], 'test')
+    end
+    def test_hocon_invalid
+        parser = StructureButcher::Parser.new
+        filename = 'test/test_invalid.hocon'
+        assert_raises(Exception){ loaded = parser.load_hocon(filename) }
     end
     def test_base64
         parser = StructureButcher::Parser.new

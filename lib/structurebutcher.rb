@@ -64,9 +64,9 @@ class StructureButcher
 
         # make sure we work with hash
         # it does not make sense to work with anything else
-	if not body.is_a?(Hash)
-	    body = Hash.new
-	end
+        if not body.is_a?(Hash)
+            body = Hash.new
+        end
 
         butcher = StructureButcher.new
         part = butcher.implantate(body, slot, part)
@@ -81,9 +81,9 @@ class StructureButcher
 
         # make sure we work with hash
         # it does not make sense to work with anything else
-	if not body.is_a?(Hash)
-	    body = Hash.new
-	end
+        if not body.is_a?(Hash)
+            body = Hash.new
+        end
 
         butcher = StructureButcher.new
         butcher.implantate(body, slot, part_struct)
@@ -95,21 +95,25 @@ end
 
 class StructureButcher::Parser
     def load_structure(filename, format)
-        case format
-        when "json"
-            return load_json(filename)
-        when "yaml"
-            return load_yaml(filename)
-        when "properties"
-            return load_properties(filename)
-        when "javaprops"
-            return load_properties(filename)
-        when "hocon"
-            return load_hocon(filename)
-        when "base64"
-            return load_base64(filename)
-        else
-            throw "Not implemented"
+        begin
+            case format
+            when "json"
+                return load_json(filename)
+            when "yaml"
+                return load_yaml(filename)
+            when "properties"
+                return load_properties(filename)
+            when "javaprops"
+                return load_properties(filename)
+            when "hocon"
+                return load_hocon(filename)
+            when "base64"
+                return load_base64(filename)
+            else
+                raise "Not implemented"
+            end
+        rescue Exception => e
+            abort(e.message)
         end
     end
 
@@ -132,19 +136,47 @@ class StructureButcher::Parser
 
     def load_json(filename)
         file = File.read(filename)
-        return recursive_stringify_keys(JSON.parse(file))
+        result = nil
+        begin
+            result = recursive_stringify_keys(JSON.parse(file))
+        rescue
+            msg = "Error parsing '" + filename + "': " + $!.message
+            raise ArgumentError.new(msg)
+        end
+        return result
     end
 
     def load_yaml(filename)
-        return recursive_stringify_keys(YAML.load_file(filename))
+        result = nil
+        begin
+            result = recursive_stringify_keys(YAML.load_file(filename))
+        rescue
+            msg = "Error parsing '" + filename + "': " + $!.message
+            raise AbortException.new(msg)
+        end
+        return result
     end
 
     def load_properties(filename)
-        return recursive_stringify_keys(JavaProperties.load(filename))
+        result = nil
+        begin
+            result = recursive_stringify_keys(JavaProperties.load(filename))
+        rescue
+            msg = "Error parsing '" + filename + "': " + $!.message
+            raise AbortException.new(msg)
+        end
+        return result
     end
 
     def load_hocon(filename)
-        return recursive_stringify_keys(Hocon.load(filename))
+        result = nil
+        begin
+            result =  recursive_stringify_keys(Hocon.load(filename))
+        rescue
+            msg = "Error parsing '" + filename + "': " + $!.message
+            raise AbortException.new(msg)
+        end
+        return result
     end
 
     def load_base64(filename)
