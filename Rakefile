@@ -1,4 +1,5 @@
 require 'rake/testtask'
+$:.unshift 'lib'
 
 Rake::TestTask.new do |t|
       t.libs << 'test'
