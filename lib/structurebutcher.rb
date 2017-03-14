@@ -10,6 +10,18 @@ require 'base64'
 #amputovat, implantovat
 #amputate, implantate
 
+class Hash
+  def sort_by_key(recursive = false, &block)
+    self.keys.sort(&block).reduce({}) do |seed, key|
+      seed[key] = self[key]
+      if recursive && seed[key].is_a?(Hash)
+        seed[key] = seed[key].sort_by_key(true, &block)
+      end
+      seed
+    end
+  end
+end
+
 class StructureButcher
     def split_escape(str)
         output = []
@@ -72,7 +84,8 @@ class StructureButcher
         part = butcher.implantate(body, slot, part)
 
         storer = StructureButcher::Storer.new
-        storer.save_structure(body, body_file, "yaml")
+
+        storer.save_structure(body.sort_by_key(true), body_file, "yaml")
     end
 
     def implantate_struct_into_file(body_file, slot, part_struct)
@@ -89,7 +102,7 @@ class StructureButcher
         butcher.implantate(body, slot, part_struct)
 
         storer = StructureButcher::Storer.new
-        storer.save_structure(body, body_file, "yaml")
+        storer.save_structure(body.sort_by_key(true), body_file, "yaml")
     end
 end
 
