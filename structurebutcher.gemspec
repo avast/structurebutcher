@@ -1,8 +1,8 @@
 Gem::Specification.new do |s|
     s.name = 'structurebutcher'
     s.homepage = 'https://github.com/avast/structurebutcher'
-    s.version = '1.0.0'
-    s.add_runtime_dependency 'json', ['~> 2.1']
+    s.version = '1.0.1'
+    s.add_runtime_dependency 'json', ['~> 2.3']
     s.add_runtime_dependency 'hocon', ['~> 1.1']
     s.add_runtime_dependency 'java-properties', ['~> 0.1']
     s.date = '2022-03-01'
