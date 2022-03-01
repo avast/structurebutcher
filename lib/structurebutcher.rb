@@ -153,7 +153,7 @@ class StructureButcher::Parser
             result = recursive_stringify_keys(YAML.load_file(filename))
         rescue
             msg = "Error parsing '" + filename + "': " + $!.message
-            raise AbortException.new(msg)
+            raise Exception.new(msg)
         end
         return result
     end
@@ -164,7 +164,7 @@ class StructureButcher::Parser
             result = recursive_stringify_keys(JavaProperties.load(filename))
         rescue
             msg = "Error parsing '" + filename + "': " + $!.message
-            raise AbortException.new(msg)
+            raise Exception.new(msg)
         end
         return result
     end
@@ -172,10 +172,10 @@ class StructureButcher::Parser
     def load_hocon(filename)
         result = nil
         begin
-            result =  recursive_stringify_keys(Hocon.load(filename))
+            result =  recursive_stringify_keys(Hocon.load(filename, {:syntax => Hocon::ConfigSyntax::HOCON}))
         rescue
             msg = "Error parsing '" + filename + "': " + $!.message
-            raise AbortException.new(msg)
+            raise Exception.new(msg)
         end
         return result
     end
